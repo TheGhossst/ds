@@ -98,17 +98,31 @@ struct node* mul(struct node*head1,struct node* head2){
     struct node* head4=NULL;
     struct node* ptr1;
     struct node* ptr2;
+    struct node* ptr3;
+    struct node*temp=NULL;
     ptr1=head1;
     int res1,res2;
     while(ptr1!=NULL){
         ptr2=head2;
         while(ptr2!=NULL){
             res1=ptr1->coeff*ptr2->coeff;
-            res2=ptr1->expo*ptr2->expo;
+            res2=ptr1->expo+ptr2->expo;
             head4=insert(head4,res1,res2);
             ptr2=ptr2->link;
         }
         ptr1=ptr1->link;
+    }
+    ptr3=head4;
+    while(ptr3->link!=NULL){
+            if(ptr3->expo==ptr3->link->expo){
+                ptr3->coeff=ptr3->coeff+ptr3->link->coeff;
+                temp=ptr3->link;
+                ptr3->link=ptr3->link->link;
+                free(temp);
+            }
+            else{
+                ptr3=ptr3->link;
+            }
     }
     return head4;
 }
